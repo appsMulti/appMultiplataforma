@@ -1,0 +1,25 @@
+{
+  "name": "1er",
+  "version": "1.0.0",
+  "description": "Análisis, diseño e implementación del proyecto Final de la materia de aplicaciones multiplataforma",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amezcua04s/appMultiplataforma.git"
+  },
+  "keywords": [],
+  "author": "zip",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/amezcua04s/appMultiplataforma/issues"
+  },
+  "homepage": "https://github.com/amezcua04s/appMultiplataforma#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}
