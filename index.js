@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const { sequelize } = require('./src/connection');
-const { Alumno, Entidad } = require('./src/models'); 
+const { Alumno, Entidad, Profesor } = require('./src/models'); 
 
 app.use(express.json());
 app.set('view engine', 'ejs');
@@ -13,6 +13,7 @@ app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));
 app.get('/', (req, res) => {
   res.render('index');
 });
+
 
 //  SOLO JSON para DataTables
 app.get('/alumnos', async (req, res) => {
@@ -27,13 +28,13 @@ app.get('/alumnos', async (req, res) => {
 
 app.post('/alumnos', async (req, res) => {
   try {
-    const { numero_cuenta, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fechaNacimiento, foto_perfil, id_entidad } = req.body;
+    const { numero_cuenta, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento, foto_perfil, id_entidad } = req.body;
 
-    if (!numero_cuenta || !nombre || !apellido_paterno || !apellido_materno || !curp || !telefono || !sexo || !correo_electronico || !fechaNacimiento) {
+    if (!numero_cuenta || !nombre || !apellido_paterno || !apellido_materno || !curp || !telefono || !sexo || !correo_electronico || !fecha_nacimiento) {
       return res.status(400).json({ message: 'Bad request' });
     }
 
-    const save = await Alumno.create({ numero_cuenta, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fechaNacimiento, foto_perfil, id_entidad });
+    const save = await Alumno.create({ numero_cuenta, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento, foto_perfil, id_entidad });
     return res.status(201).json(save);
   } catch (error) {
     console.log('Error', error);
@@ -84,6 +85,32 @@ app.post('/entidad', async (req, res) => {
   }
 });  
 
+
+app.get('/profesor', async (req, res) => {
+  try {
+    const profesores = await Profesor.findAll();
+    return res.json({ profesores });
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/profesor', async (req, res) => {
+  try {
+    const { numero_empleado, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento } = req.body;
+
+    if (!numero_empleado || !nombre || !apellido_paterno || !apellido_materno || !curp || !telefono || !sexo || !correo_electronico || !fecha_nacimiento) {
+      return res.status(400).json({ message: 'Bad request' });
+    }
+
+    const save = await Profesor.create({ numero_empleado, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento });
+    return res.status(201).json(save);
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 sequelize.authenticate()
