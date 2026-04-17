@@ -122,3 +122,10 @@ __La primera vez, y solo la primera vez que se vayan a hacer un commit, correr e
 > De ahora en adelante será solamente
 
 ``git push``
+
+
+----
+# Una vez creado todo el entorno lo puedes probar
+ ``node index.js``
+
+ > Y te debera aparecer en consola que la aplicación esta siendo ejecutada en __localhost:3000__

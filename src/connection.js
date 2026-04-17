@@ -15,3 +15,11 @@ const sequelize = new Sequelize(
 module.exports = {
   sequelize
 };
+
+/*
+$body = @{
+    nombre_entidad = "Naucalpan"
+    abreviatura = "NAU"
+  } | ConvertTo-Json
+
+*/ 
