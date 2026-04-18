@@ -51,9 +51,7 @@ function loadAlumnos(){
       { data: 'sexo' },
       { data: 'correo_electronico' },
       { data: 'fecha_nacimiento' },
-      { 
-        data: 'foto_perfil',
-      },
+      { data: 'foto_perfil'},
       { data: 'id_entidad' }
     ]
   });
@@ -72,11 +70,10 @@ function loadProfesores(){
     <th>Correo electrónico</th>
     <th>Fecha de nacimiento</th>
     <th>Sueldo</th>
-    <th>data</th>
   `);
 
   table = $('#mainTable').DataTable({
-    ajax: '/profesores',
+    ajax: '/profesor',
     dataSrc: '',
     columns: [
       { data: 'id_profesor' },
@@ -90,7 +87,6 @@ function loadProfesores(){
       { data: 'correo_electronico' },
       { data: 'fecha_nacimiento' },
       { data: 'sueldo' },
-      { data: 'all_data_professor'}
     ]
   });
 }

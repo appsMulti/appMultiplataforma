@@ -89,7 +89,7 @@ app.post('/entidad', async (req, res) => {
 app.get('/profesor', async (req, res) => {
   try {
     const profesores = await Profesor.findAll();
-    return res.json({ profesores });
+    return res.json({ data: profesores });
   } catch (error) {
     console.log('Error', error);
     return res.status(500).json({ message: 'Internal server error' });
