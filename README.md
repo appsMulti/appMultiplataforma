@@ -93,9 +93,6 @@ Renombrar el nombre de la rama donde trabajarás como main
 ``git pull --no-rebase`` 
 > De esta forma descarga los cambios que se han realizado en el repositorio para mantener la integridad
 
-``git push``
->De esta forma se suben todos los cambios que tengas de forma local al repositorio
-
 ## Para subir cambios  
 Para hacer un commit de todos los cambios, debes estar en la carpeta donde se encuentren todos los archivos del proyecto
 >### Antes de hacer cambios
