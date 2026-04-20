@@ -123,6 +123,8 @@ __La primera vez, y solo la primera vez que se vayan a hacer un commit, correr e
 
 ----
 # Una vez creado todo el entorno lo puedes probar
+> Dentro de la carpeta donde esta el proyecto:
+
  ``node index.js``
 
  > Y te debera aparecer en consola que la aplicación esta siendo ejecutada en __localhost:3000__
