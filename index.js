@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const { sequelize } = require('./src/connection');
-const { Alumno, Entidad, Profesor } = require('./src/models'); 
+const { Alumno, Entidad, Profesor, Asignatura } = require('./src/models'); 
 
 app.use(express.json());
 app.set('view engine', 'ejs');
@@ -48,13 +48,12 @@ app.get('/entidad', async (req, res) => {
     const entidades = await Entidad.findAll({
       include: [
         {
-          model: Entidad,
-          as: 'entidades',
-          attributes: ['id_entidad', 'nombre_entidad', 'abreviatura'],
+          model: Alumno,
+          attributes: ['numero_cuenta', 'nombre', 'apellido_paterno'],
         },
       ],
     })
-    return res.json({ entidades });
+    return res.json({ data: entidades });
   } catch (error) {
     console.log('Error', error);
     return res.status(500).json({ message: 'Internal server error' });
@@ -106,6 +105,35 @@ app.post('/profesor', async (req, res) => {
 
     const save = await Profesor.create({ numero_empleado, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento });
     return res.status(201).json(save);
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+app.get('/asignatura', async (req, res) => {
+  try {
+    const asignaturas = await Asignatura.findAll();
+    return res.json({ data: asignaturas });
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/asignatura', async (req, res) => {
+  try {
+    const nombre = req.body?.nombre;
+
+    if (!nombre) {
+      return res.status(400).json({ message: 'Bad request, nombre or abreviatura not found' });
+    }
+    const save = await Asignatura.create({
+      nombre
+    });
+    
+    return res.status(201).json({ asignatura: save });
   } catch (error) {
     console.log('Error', error);
     return res.status(500).json({ message: 'Internal server error' });

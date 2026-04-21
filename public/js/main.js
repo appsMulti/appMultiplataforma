@@ -5,6 +5,8 @@ $(document).ready(function () {
 
   $('#btnAlumnos').click(loadAlumnos);
   $('#btnProfesores').click(loadProfesores);
+  $('#btnEntidades').click(loadEntidades);
+  $('#btnAsignaturas').click(loadAsignaturas);
 });
 
 function resetTable(headers) {
@@ -87,6 +89,44 @@ function loadProfesores(){
       { data: 'correo_electronico' },
       { data: 'fecha_nacimiento' },
       { data: 'sueldo' },
+    ]
+  });
+}
+
+function loadEntidades(){
+  resetTable(`
+    <th>ID de entidad</th>
+    <th>Nombre</th>
+    <th>Abreviatura paterno</th>
+  `);
+
+  table = $('#mainTable').DataTable({
+    ajax: '/entidad',
+    dataSrc: '',
+    columns: [
+      { data: 'id_entidad' },
+      { data: 'nombre_entidad' },
+      { data: 'abreviatura' },
+    ]
+  });
+}
+
+
+
+function loadAsignaturas(){
+  resetTable(`
+    <th>ID de Asignatura</th>
+    <th>Nombre</th>
+
+  `);
+
+  table = $('#mainTable').DataTable({
+    ajax: '/asignatura',
+    dataSrc: '',
+    columns: [
+      { data: 'clave_asignatura' },
+      { data: 'nombre' },
+     
     ]
   });
 }
