@@ -167,6 +167,23 @@ const Asignatura = sequelize.define('Asignatura', {
   timestamps: false
 });
 
+//Modelo de plantel
+const Plantel = sequelize.define('Plantel', {
+  clave_plantel: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nombre_plantel: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+    unique: true
+  }
+}, {
+  tableName: 'plantel',
+  timestamps: false
+});
+
 
 
 
@@ -178,5 +195,6 @@ module.exports = {
   Alumno,
   Entidad,
   Profesor,
-  Asignatura
+  Asignatura,
+  Plantel
 };
