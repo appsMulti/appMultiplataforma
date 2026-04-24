@@ -148,6 +148,45 @@ const Profesor = sequelize.define('Profesor', {
   timestamps: false,
 });
 
+
+//Modelo de asignatura
+const Asignatura = sequelize.define('Asignatura', {
+  clave_asignatura: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nombre: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+    unique: true
+  }
+
+}, {
+  tableName: 'asignatura',
+  timestamps: false
+});
+
+//Modelo de plantel
+const Plantel = sequelize.define('Plantel', {
+  clave_plantel: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nombre_plantel: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+    unique: true
+  }
+}, {
+  tableName: 'plantel',
+  timestamps: false
+});
+
+
+
+
 //Relaciones entre las entidades
 Entidad.hasMany(Alumno, { foreignKey: 'id_entidad' });
 Alumno.belongsTo(Entidad, { foreignKey: 'id_entidad' });
@@ -155,5 +194,7 @@ Alumno.belongsTo(Entidad, { foreignKey: 'id_entidad' });
 module.exports = {
   Alumno,
   Entidad,
-  Profesor
+  Profesor,
+  Asignatura,
+  Plantel
 };
