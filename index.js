@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const { sequelize } = require('./src/connection');
-const { Alumno, Entidad, Profesor, Asignatura } = require('./src/models'); 
+const { Alumno, Entidad, Profesor, Asignatura, Plantel } = require('./src/models'); 
 
 app.use(express.json());
 app.set('view engine', 'ejs');
@@ -134,6 +134,40 @@ app.post('/asignatura', async (req, res) => {
     });
     
     return res.status(201).json({ asignatura: save });
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.get('/plantel', async (req, res) => {
+  try {
+    const planteles = await Plantel.findAll();
+    return res.json({ data: planteles });
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
+app.post('/plantel', async (req, res) => {
+  try {
+    const nombre_plantel = req.body?.nombre_plantel;
+    const createdAt = req.body?.createdAt;
+    const updatedAt = req.body?.updatedAt;
+
+    if (!nombre_plantel) {
+      return res.status(400).json({ message: 'Bad request, nombre or abreviatura not found' });
+    }
+    const save = await Plantel.create({
+      nombre_plantel,
+      createdAt,
+      updatedAt
+    });
+    
+    return res.status(201).json({ plantel: save });
   } catch (error) {
     console.log('Error', error);
     return res.status(500).json({ message: 'Internal server error' });

@@ -7,6 +7,7 @@ $(document).ready(function () {
   $('#btnProfesores').click(loadProfesores);
   $('#btnEntidades').click(loadEntidades);
   $('#btnAsignaturas').click(loadAsignaturas);
+  $('#btnPlanteles').click(loadPlanteles); 
 });
 
 function resetTable(headers) {
@@ -126,6 +127,24 @@ function loadAsignaturas(){
     columns: [
       { data: 'clave_asignatura' },
       { data: 'nombre' },
+     
+    ]
+  });
+}
+
+function loadPlanteles(){
+  resetTable(`
+    <th>Clave del plantel</th>
+    <th>Nombre</th>
+
+  `);
+
+  table = $('#mainTable').DataTable({
+    ajax: '/plantel',
+    dataSrc: '',
+    columns: [
+      { data: 'clave_plantel' },
+      { data: 'nombre_plantel' },
      
     ]
   });

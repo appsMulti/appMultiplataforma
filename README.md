@@ -51,7 +51,7 @@ Renombrar el nombre de la rama donde trabajarás como main
 
 >Después hacer el pull (descargar el proyecto de forma local)
 
-``git pull https://github.com/amezcua04s/FCA-Proyecto-Implementacion-01.git``
+``git pull https://github.com/appsMulti/appMultiplataforma.git``
 
 >Cambia a tu rama personal para que no haya conflictos
 
@@ -67,26 +67,20 @@ Renombrar el nombre de la rama donde trabajarás como main
 * Modificar el archivo llamado __.env_example__ y renombrarlo como: __.env__ y modifica los siguientes valores
 **Asegurate de crear la copia antes de comenzar a modificar el archivo, no lo elimines**
 
->>>``DB_HOST = <host que creaste en pgAdmin>``
-
->>>``DB_USER = <userName de pgAdmin>``
-
->>>``DB_PASSWORD = <password para el usuario en pgAdmin>``
-
->>>``DB_NAME = <nombre de la base de datos que creaste para el proyecto en pgAdmin>``
-
-
-
+```
+DB_HOST = <host que creaste en pgAdmin>
+DB_USER = <userName de pgAdmin>
+DB_PASSWORD = <password para el usuario en pgAdmin>
+DB_NAME = <nombre de la base de datos que creaste para el proyecto en pgAdmin>
+```
 
 * Crear un archivo llamado ".gitignore" donde se escribirán los archivos que se ignorarán
 
-> Para crear el archivo
->>``vim .gitignore``
-
 > Agregar lo siguiente:
->>``.gitignore ``
-
->> ``.env``
+```
+.gitignore 
+.env
+```
 
 ## __Antes de subir los cambios, hacer un git pull para estar en la versión más reciente del proyecto__
 
