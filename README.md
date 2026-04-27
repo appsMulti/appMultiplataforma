@@ -55,13 +55,18 @@ Renombrar el nombre de la rama donde trabajarás como main
 
 >Cambia a tu rama personal para que no haya conflictos
 
-``git branch -m <Nombre>``
+``git branch <Nombre>``
 
 ### Para empezar a hacer cambios y no haya problemas, hazlo desde tu rama 
 
 ``git checkout <Nombre>``
 
-# **IMPORTANTE**
+# Debes crear la base de datos para poder conectarte en los siguientes pasos
+* Pon el nombre que tu quieras a la BD, no es importante
+* Entra a la DB y crea todas las tablas con el archivo [Crear db](./creartablas.sql)
+>> copia y pega todo el archivo
+
+## **IMPORTANTE**
 > Asegurate de estar en la carpeta principal donde esta todo el proyecto para los siguientes pasos
 
 * Modificar el archivo llamado __.env_example__ y renombrarlo como: __.env__ y modifica los siguientes valores
