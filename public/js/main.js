@@ -98,7 +98,7 @@ function loadEntidades(){
   resetTable(`
     <th>ID de entidad</th>
     <th>Nombre</th>
-    <th>Abreviatura paterno</th>
+    <th>Abreviatura</th>
   `);
 
   table = $('#mainTable').DataTable({

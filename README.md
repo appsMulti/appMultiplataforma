@@ -117,6 +117,19 @@ Para hacer un commit de todos los cambios, debes estar en la carpeta donde se en
 
 ``git push``
 
+---
+# IMPORTANTE
+## Para jalar los ultimos cambios a tu rama
+
+> Desde tu rama corre lo siguiente
+
+```
+git rebase main
+git push 
+```
+
+> Esto hará que los cambios más recientes de main, estén en tu rama
+----
 
 ----
 # Una vez creado todo el entorno lo puedes probar
