@@ -65,7 +65,9 @@ __La primera vez, y solo la primera vez que se vayan a hacer un commit, correr e
 
 # Debes crear la base de datos para poder conectarte en los siguientes pasos
 * Pon el nombre que tu quieras a la BD, no es importante
-* Entra a la DB y crea todas las tablas con el archivo [Crear db](./creartablas.sql)
+* Entra a la DB y crea todas las tablas con el archivo [Crear db](./SQL/creartablas.sql)
+* Después pobla la DB, de tabla en tabla con el archivo [Llenar tablas pt1](./SQL/llenarTablas1.sql)
+* Después termina de poblar las tablas [Llenar tablas pt2](./SQL/llenarTablas2.sql)
 >> copia y pega todo el archivo
 
 ## **IMPORTANTE**
@@ -117,19 +119,6 @@ Para hacer un commit de todos los cambios, debes estar en la carpeta donde se en
 
 ``git push``
 
----
-# IMPORTANTE
-## Para jalar los ultimos cambios a tu rama
-
-> Desde tu rama corre lo siguiente
-
-```
-git rebase main
-git push 
-```
-
-> Esto hará que los cambios más recientes de main, estén en tu rama
-----
 
 ----
 # Una vez creado todo el entorno lo puedes probar
