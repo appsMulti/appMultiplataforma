@@ -1,0 +1,112 @@
+components:
+  schemas:
+    Profesor:
+      type: object
+      required:
+        - numero_empleado
+        - nombre
+        - apellido_paterno
+        - apellido_materno
+        - curp
+        - telefono
+        - sexo
+        - correo_electronico
+        - fecha_nacimiento
+      properties:
+        numero_empleado:
+          type: string
+          example: "EMP001"
+        nombre:
+          type: string
+          example: "María"
+        apellido_paterno:
+          type: string
+          example: "Martínez"
+        apellido_materno:
+          type: string
+          example: "Pérez"
+        curp:
+          type: string
+          example: "MAPM700101MDFXXX00"
+        telefono:
+          type: string
+          example: "5559876543"
+        sexo:
+          type: string
+          enum: [M, F]
+          example: "F"
+        correo_electronico:
+          type: string
+          format: email
+          example: "maria@escuela.edu.mx"
+        fecha_nacimiento:
+          type: string
+          format: date
+          example: "1980-05-15"
+
+paths:
+  /profesor:
+    get:
+      summary: Obtener todos los profesores
+      tags:
+        - Profesores
+      responses:
+        "200":
+          description: Lista de profesores obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Profesor"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+    post:
+      summary: Crear un nuevo profesor
+      tags:
+        - Profesores
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Profesor"
+      responses:
+        "201":
+          description: Profesor creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profesor"
+        "400":
+          description: Datos incompletos o inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Bad request"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"

@@ -4,6 +4,15 @@ const port = 3000;
 const { sequelize } = require('./src/connection');
 const { Alumno, Entidad, Profesor, Asignatura, Plantel } = require('./src/models'); 
 
+const swaggerUi = require('swagger-ui-express');
+const specs = require('./swagger/swagger.js');
+
+//import swaggerUi from 'swagger-ui-express'; //importamos swagger UI express, podría ser que haya que agregar gzipped
+//import specs from "./swagger/swagger.js"; //importamos los specs desde nuestro swagger.js
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs)) //handler para la documentación en el formato que pide swagger 
+// la ruta de la documentación va a ser api-docs 
+//podemos pasarle un archivo o un objeto de configuración con el .setup 
 app.use(express.json());
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
