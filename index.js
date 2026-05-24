@@ -14,8 +14,10 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-
-//  SOLO JSON para DataTables
+/*
+  * Funciones para alumno
+ */
+//obtener todos los alumnos
 app.get('/alumnos', async (req, res) => {
   try {
     const alumnos = await Alumno.findAll();
@@ -26,6 +28,7 @@ app.get('/alumnos', async (req, res) => {
   }
 });
 
+//Post para alumno
 app.post('/alumnos', async (req, res) => {
   try {
     const { numero_cuenta, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento, foto_perfil, id_entidad } = req.body;
@@ -42,7 +45,29 @@ app.post('/alumnos', async (req, res) => {
   }
 });
 
+//Eliminar alumno
+app.delete('/alumnos/:numero_cuenta', async (req, res) => {
+  try {
+    const { numero_cuenta } = req.params;
+    
+    const deleted = await Alumno.destroy({ where: { numero_cuenta } });
+    
+    if (deleted) {
+      return res.status(204).send();
+    } else {
+      return res.status(404).json({ message: 'Alumno not found' });
+    }
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });  
+  }
+});
 
+
+/*
+  * Funciones para entidad
+ */
+//obtener todas las entidades
 app.get('/entidad', async (req, res) => {
   try {
     const entidades = await Entidad.findAll({
@@ -60,6 +85,7 @@ app.get('/entidad', async (req, res) => {
   }
 });
 
+//post para entidad
 app.post('/entidad', async (req, res) => {
   try {
     const nombre_entidad = req.body?.nombre_entidad;
@@ -84,7 +110,30 @@ app.post('/entidad', async (req, res) => {
   }
 });  
 
+//Eliminar entidad
+app.delete('/entidad/:id_entidad', async (req, res) => {
+  try {
+    const { id_entidad } = req.params;
+    
+    const deleted = await Entidad.destroy({ where: { id_entidad } });
+    
+    if (deleted) {
+      return res.status(204).send();
+    }
+    else {
+      return res.status(404).json({ message: 'Entidad not found' });
+    }
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });  
+  }
+});
 
+
+/*
+  * Funciones para entidad
+ */
+//obtener todos los profesores
 app.get('/profesor', async (req, res) => {
   try {
     const profesores = await Profesor.findAll();
@@ -95,15 +144,16 @@ app.get('/profesor', async (req, res) => {
   }
 });
 
+//post para profesor
 app.post('/profesor', async (req, res) => {
   try {
-    const { numero_empleado, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento } = req.body;
+    const { nombre, apellido_paterno, apellido_materno, curp, rfc, telefono, sexo, correo_electronico, fecha_nacimiento, sueldo } = req.body;
 
-    if (!numero_empleado || !nombre || !apellido_paterno || !apellido_materno || !curp || !telefono || !sexo || !correo_electronico || !fecha_nacimiento) {
+    if ( !nombre || !apellido_paterno || !apellido_materno || !curp || !rfc || !telefono || !sexo || !correo_electronico || !fecha_nacimiento || !sueldo ) {
       return res.status(400).json({ message: 'Bad request' });
     }
 
-    const save = await Profesor.create({ numero_empleado, nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento });
+    const save = await Profesor.create({ nombre, apellido_paterno, apellido_materno, curp, rfc, telefono, sexo, correo_electronico, fecha_nacimiento, sueldo });
     return res.status(201).json(save);
   } catch (error) {
     console.log('Error', error);
@@ -111,7 +161,29 @@ app.post('/profesor', async (req, res) => {
   }
 });
 
+//Eliminar profesor
+app.delete('/profesor/:id_profesor', async (req, res) => {
+  try {
+    const { id_profesor } = req.params;
+    
+    const deleted = await Profesor.destroy({ where: { id_profesor } });
+    
+    if (deleted) {
+      return res.status(204).send();
+    }
+    else {
+      return res.status(404).json({ message: 'Profesor not found' });
+    }
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });  
+  }
+});
 
+/*
+  * Funciones para asignatura
+ */
+//obtener todas las asignaturas
 app.get('/asignatura', async (req, res) => {
   try {
     const asignaturas = await Asignatura.findAll();
@@ -122,14 +194,16 @@ app.get('/asignatura', async (req, res) => {
   }
 });
 
+//post para asignatura
 app.post('/asignatura', async (req, res) => {
   try {
-    const nombre = req.body?.nombre;
+    const {clave_asignatura, nombre} = req.body;
 
-    if (!nombre) {
-      return res.status(400).json({ message: 'Bad request, nombre or abreviatura not found' });
+    if (!clave_asignatura || !nombre) {
+      return res.status(400).json({ message: 'Bad request, clave or nombre not found' });
     }
     const save = await Asignatura.create({
+      clave_asignatura,
       nombre
     });
     
@@ -140,6 +214,29 @@ app.post('/asignatura', async (req, res) => {
   }
 });
 
+//Eliminar asignatura
+app.delete('/asignatura/:clave_asignatura', async (req, res) => {
+  try {
+    const { clave_asignatura } = req.params;
+    
+    const deleted = await Asignatura.destroy({ where: { clave_asignatura } });
+    
+    if (deleted) {
+      return res.status(204).send();
+    }
+    else {
+      return res.status(404).json({ message: 'Asignatura not found' });
+    }
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });  
+  }
+});
+
+/*
+  * Funciones para entidad
+ */
+//obtener todos los planteles
 app.get('/plantel', async (req, res) => {
   try {
     const planteles = await Plantel.findAll();
@@ -150,8 +247,7 @@ app.get('/plantel', async (req, res) => {
   }
 });
 
-
-
+//post para plantel
 app.post('/plantel', async (req, res) => {
   try {
     const nombre_plantel = req.body?.nombre_plantel;
@@ -174,6 +270,24 @@ app.post('/plantel', async (req, res) => {
   }
 });
 
+//Eliminar plantel
+app.delete('/plantel/:clave_plantel', async (req, res) => {
+  try {
+    const { clave_plantel } = req.params;
+    
+    const deleted = await Plantel.destroy({ where: { clave_plantel } });
+    
+    if (deleted) {
+      return res.status(204).send();
+    }
+    else {
+      return res.status(404).json({ message: 'Plantel not found' });
+    }
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });  
+  }
+});
 
 sequelize.authenticate()
   .then(() => {
