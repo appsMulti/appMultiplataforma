@@ -37,9 +37,9 @@ __Dentro de esa carpeta inicializar git desde la terminal de git__
 
 ``git init``
 
-``git config --global user.name "<Usuario>"``
+# **IMPORTANTE**
 
-``git config --global user.email "<Email>"``
+>Después de eso, debes crear un a llave SSH, si no sabes cómo preguntale a gemini____
 
 
 > ----
@@ -47,21 +47,30 @@ __Hacer un pull para instalar todo el repositorio de forma local__
 ---
 Renombrar el nombre de la rama donde trabajarás como main
 
+
 ``git branch -m main``
 
->Después hacer el pull (descargar el proyecto de forma local)
+## __*IMPORTANTE*__
+__La primera vez, y solo la primera vez que se vayan a hacer un commit, correr el siguiente comando para vincular con el repositorio__
 
-``git pull https://github.com/appsMulti/appMultiplataforma.git``
+``git remote add appMultiplataforma https://github.com/appsMulti/appMultiplataforma.git``
 
 >Cambia a tu rama personal para que no haya conflictos
 
-``git branch -m <Nombre>``
+``git branch <Nombre>``
 
 ### Para empezar a hacer cambios y no haya problemas, hazlo desde tu rama 
 
 ``git checkout <Nombre>``
 
-# **IMPORTANTE**
+# Debes crear la base de datos para poder conectarte en los siguientes pasos
+* Pon el nombre que tu quieras a la BD, no es importante
+* Entra a la DB y crea todas las tablas con el archivo [Crear db](./SQL/creartablas.sql)
+* Después pobla la DB, de tabla en tabla con el archivo [Llenar tablas pt1](./SQL/llenarTablas1.sql)
+* Después termina de poblar las tablas [Llenar tablas pt2](./SQL/llenarTablas2.sql)
+>> copia y pega todo el archivo
+
+## **IMPORTANTE**
 > Asegurate de estar en la carpeta principal donde esta todo el proyecto para los siguientes pasos
 
 * Modificar el archivo llamado __.env_example__ y renombrarlo como: __.env__ y modifica los siguientes valores
@@ -99,10 +108,6 @@ Para hacer un commit de todos los cambios, debes estar en la carpeta donde se en
 ``git commit -m "Mensaje" ``
 > Seguir una estructura de mensajes, que sean concisos de lo que se cambio
 ----
-## __*IMPORTANTE*__
-__La primera vez, y solo la primera vez que se vayan a hacer un commit, correr el siguiente comando para vincular con el repositorio__
-
-``git remote add appMultiplataforma https://github.com/appsMulti/appMultiplataforma.git``
 
 ### __Para subir los cambios por primera vez__
 

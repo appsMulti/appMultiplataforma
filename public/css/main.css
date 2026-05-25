@@ -1,0 +1,184 @@
+body { margin: 0; padding: 0; background: #f0f2f5; }
+
+#site-header {
+  background: #fff;
+  border-bottom: 1px solid #dee2e6;
+  padding: .75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+#site-header .logos {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#site-header nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-left: auto;
+}
+
+#site-header nav a {
+  text-decoration: none;
+  color: #555;
+  font-size: .9rem;
+  font-weight: 500;
+  transition: color .15s;
+}
+
+#site-header nav a:hover,
+#site-header nav a.active {
+  color: #003366;
+}
+
+/* ── LANDING ── */
+#vista-landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 1.5rem;
+  min-height: calc(100vh - 70px);
+}
+
+#vista-landing h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #003366;
+  margin-bottom: 1rem;
+}
+
+#vista-landing p {
+  max-width: 550px;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+/* ── TABLAS ── */
+#vista-tablas {
+  display: none;
+  padding: 1.5rem;
+}
+
+.tabla-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 1.5rem 2rem 2rem;
+  display: inline-block;
+  width: fit-content;
+  min-width: 320px;
+  max-width: calc(100vw - 3rem);
+}
+
+/* Encabezado de la card con título de la tabla activa */
+.tabla-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.tabla-header h5 {
+  margin: 0;
+  font-weight: 600;
+  color: #003366;
+}
+
+/* Botones de selección de tabla */
+.btn-tabla-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1.25rem;
+}
+
+.btn-tabla-group .btn {
+  border-radius: 20px;
+  font-size: .85rem;
+  padding: .35rem 1rem;
+  font-weight: 500;
+  transition: all .15s;
+}
+
+/* Estilos DataTables / Bootstrap 5 overrides */
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter label {
+  font-size: .85rem;
+  color: #555;
+}
+
+.dataTables_wrapper .dataTables_info {
+  font-size: .8rem;
+  color: #888;
+  padding-top: .6rem;
+}
+
+table.dataTable thead th {
+  background: #003366;
+  color: #fff;
+  font-weight: 600;
+  font-size: .85rem;
+  white-space: nowrap;
+  border-bottom: none !important;
+}
+
+table.dataTable thead th:first-child { border-radius: 6px 0 0 0; }
+table.dataTable thead th:last-child  { border-radius: 0 6px 0 0; }
+
+table.dataTable tbody tr:hover td {
+  background: #eef3fb !important;
+}
+
+table.dataTable tbody td {
+  font-size: .875rem;
+  vertical-align: middle;
+  color: #333;
+}
+
+/* Paginación más compacta */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  border-radius: 6px !important;
+  font-size: .8rem !important;
+}
+
+/* Contenedor que centra la card si las columnas son pocas */
+#tabla-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* DataTables wrapper sigue el tamaño de la card, no al revés */
+.tabla-card .dataTables_wrapper {
+  width: fit-content;
+  min-width: 280px;
+}
+
+/* Los controles top (length + filter) en una sola línea compacta */
+.tabla-card .dataTables_wrapper .row:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  margin-bottom: .5rem;
+}
+
+/* La tabla no fuerza 100% */
+#mainTable {
+  width: auto !important;
+  min-width: 0 !important;
+}
+
+/* El input de búsqueda no se expande demasiado */
+.dataTables_filter input {
+  width: 140px !important;
+}
