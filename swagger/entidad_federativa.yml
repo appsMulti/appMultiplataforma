@@ -1,83 +1,37 @@
 components:
   schemas:
-    Profesor:
+    Entidad:
       type: object
       required:
-        - nombre
-        - apellido_paterno
-        - apellido_materno
-        - curp
-        - rfc
-        - telefono
-        - sexo
-        - correo_electronico
-        - fecha_nacimiento
-        - sueldo
-        - all_data_professor
+        - nombre_entidad
+        - abreviatura
       properties:
-        id_profesor:
+        id_entidad:
           type: integer
-          description: Clave primaria autogenerada por el controlador de base de datos 
           readOnly: true
-          example: 1
-        nombre:
+          description: ID de la entidad federativa (generado automáticamente)
+          example: 9
+        nombre_entidad:
           type: string
-          maxLength: 25
-          example: "María"
-        apellido_paterno:
+          maxLength: 50
+          description: Nombre de la entidad federativa (único)
+          example: "Ciudad de México"
+        abreviatura:
           type: string
-          maxLength: 25
-          example: "Martínez"
-        apellido_materno:
-          type: string
-          maxLength: 25
-          example: "Pérez"
-        curp:
-          type: string
-          minLength: 18
-          maxLength: 18
-          example: "MAPM700101MDFXXX00"
-        rfc:
-          type: string
-          minLength: 13
-          maxLength: 13
-          example: "MAPM700101XX3"
-        telefono:
-          type: string
-          minLength: 10
-          maxLength: 10
-          example: "5559876543"
-        sexo:
-          type: string
-          enum: [M, F]
-          example: "F"
-        correo_electronico:
-          type: string
-          format: email
-          maxLength: 100
-          example: "maria_L@gmail.com"
-        fecha_nacimiento:
-          type: string
-          format: date
-          example: "1980-05-15"
-        sueldo:
-          type: number
-          format: decimal
-          minimum: 0
-          example: 15000.00
-        all_data_professor:
-          type: object
-          example: {}
+          maxLength: 5
+          description: Abreviatura de la entidad federativa (única)
+          example: "CDMX"
 
 paths:
-  /profesor:
+  /entidad:
     get:
-      summary: Obtener todos los profesores
+      summary: Obtener todas las entidades federativas
+      description: Retorna la lista completa de entidades federativas registradas en el sistema
       tags:
-        - Profesores
+        - Entidades Federativas
       responses:
         "200":
-          description: Lista de profesores obtenida exitosamente
+          description: Lista de entidades federativas obtenida exitosamente
           content:
             application/json:
               schema:
@@ -86,7 +40,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Profesor"
+                      $ref: "#/components/schemas/Entidad"
         "500":
           description: Error interno del servidor
           content:
@@ -99,22 +53,26 @@ paths:
                     example: "Internal server error"
 
     post:
-      summary: Crear un nuevo profesor
+      summary: Crear una nueva entidad federativa
+      description: Registra una nueva entidad federativa en el sistema
       tags:
-        - Profesores
+        - Entidades Federativas
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Profesor"
+              $ref: "#/components/schemas/Entidad"
       responses:
         "201":
-          description: Profesor creado exitosamente
+          description: Entidad federativa creada exitosamente
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Profesor"
+                type: object
+                properties:
+                  entidad:
+                    $ref: "#/components/schemas/Entidad"
         "400":
           description: Datos incompletos o inválidos
           content:
@@ -124,7 +82,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Bad request"
+                    example: "Bad request, nombre or abreviatura not found"
         "500":
           description: Error interno del servidor
           content:
@@ -136,23 +94,24 @@ paths:
                     type: string
                     example: "Internal server error"
 
-  /profesor/{id_profesor}:
+  /entidad/{id_entidad}:
     delete:
-      summary: Eliminar un profesor por ID
+      summary: Eliminar una entidad federativa por ID
+      description: Elimina el registro de una entidad federativa del sistema usando su ID
       tags:
-        - Profesores
+        - Entidades Federativas
       parameters:
-        - name: id_profesor
+        - name: id_entidad
           in: path
           required: true
           schema:
             type: integer
-          example: 1
+          example: 9
       responses:
         "204":
-          description: Profesor eliminado exitosamente
+          description: Entidad federativa eliminada exitosamente
         "404":
-          description: Profesor no encontrado
+          description: Entidad federativa no encontrada
           content:
             application/json:
               schema:
@@ -160,7 +119,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Profesor not found"
+                    example: "Entidad not found"
         "500":
           description: Error interno del servidor
           content:
@@ -173,25 +132,26 @@ paths:
                     example: "Internal server error"
 
     put:
-      summary: Actualizar un profesor por ID
+      summary: Actualizar una entidad federativa por ID
+      description: Actualiza los datos de una entidad federativa existente usando su ID
       tags:
-        - Profesores
+        - Entidades Federativas
       parameters:
-        - name: id_profesor
+        - name: id_entidad
           in: path
           required: true
           schema:
             type: integer
-          example: 1
+          example: 9
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Profesor"
+              $ref: "#/components/schemas/Entidad"
       responses:
         "200":
-          description: Profesor actualizado exitosamente
+          description: Entidad federativa actualizada exitosamente
           content:
             application/json:
               schema:
@@ -201,7 +161,7 @@ paths:
                     type: string
                     example: "Updated successfully"
         "404":
-          description: Profesor no encontrado
+          description: Entidad federativa no encontrada
           content:
             application/json:
               schema:

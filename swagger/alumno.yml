@@ -1,83 +1,82 @@
 components:
   schemas:
-    Profesor:
+    Alumno:
       type: object
       required:
+        - numero_cuenta
         - nombre
         - apellido_paterno
         - apellido_materno
         - curp
-        - rfc
         - telefono
         - sexo
         - correo_electronico
         - fecha_nacimiento
-        - sueldo
-        - all_data_professor
+        - id_entidad
       properties:
-        id_profesor:
+        numero_cuenta:
           type: integer
-          description: Clave primaria autogenerada por el controlador de base de datos 
-          readOnly: true
-          example: 1
+          description: Número de cuenta del alumno (clave primaria, proporcionado por el usuario)
+          example: 423456789
         nombre:
           type: string
-          maxLength: 25
-          example: "María"
+          description: Nombre(s) del alumno
+          example: "Juan Carlos"
         apellido_paterno:
           type: string
-          maxLength: 25
-          example: "Martínez"
+          description: Apellido paterno del alumno
+          example: "García"
         apellido_materno:
           type: string
-          maxLength: 25
-          example: "Pérez"
+          description: Apellido materno del alumno
+          example: "López"
         curp:
           type: string
           minLength: 18
           maxLength: 18
-          example: "MAPM700101MDFXXX00"
-        rfc:
-          type: string
-          minLength: 13
-          maxLength: 13
-          example: "MAPM700101XX3"
+          description: CURP del alumno (18 caracteres, único)
+          example: "GALJ010101HDFXXX00"
         telefono:
           type: string
           minLength: 10
           maxLength: 10
-          example: "5559876543"
+          description: Teléfono del alumno (10 dígitos)
+          example: "5551234567"
         sexo:
           type: string
           enum: [M, F]
-          example: "F"
+          description: Sexo del alumno (M = Masculino, F = Femenino)
+          example: "M"
         correo_electronico:
           type: string
           format: email
-          maxLength: 100
-          example: "maria_L@gmail.com"
+          description: Correo electrónico del alumno (único)
+          example: "juan.garcia@correo.com"
         fecha_nacimiento:
           type: string
           format: date
-          example: "1980-05-15"
-        sueldo:
-          type: number
-          format: decimal
-          minimum: 0
-          example: 15000.00
-        all_data_professor:
-          type: object
-          example: {}
+          description: Fecha de nacimiento del alumno (YYYY-MM-DD)
+          example: "2001-03-15"
+        foto_perfil:
+          type: string
+          format: binary
+          nullable: true
+          description: Foto de perfil del alumno en formato binario (opcional)
+        id_entidad:
+          type: integer
+          description: ID de la entidad federativa a la que pertenece el alumno
+          example: 9
 
 paths:
-  /profesor:
+  /alumnos:
     get:
-      summary: Obtener todos los profesores
+      summary: Obtener todos los alumnos
+      description: Retorna la lista completa de alumnos registrados en el sistema
       tags:
-        - Profesores
+        - Alumnos
       responses:
         "200":
-          description: Lista de profesores obtenida exitosamente
+          description: Lista de alumnos obtenida exitosamente
           content:
             application/json:
               schema:
@@ -86,7 +85,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Profesor"
+                      $ref: "#/components/schemas/Alumno"
         "500":
           description: Error interno del servidor
           content:
@@ -99,22 +98,23 @@ paths:
                     example: "Internal server error"
 
     post:
-      summary: Crear un nuevo profesor
+      summary: Crear un nuevo alumno
+      description: Registra un nuevo alumno en el sistema. Todos los campos son obligatorios excepto foto_perfil.
       tags:
-        - Profesores
+        - Alumnos
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Profesor"
+              $ref: "#/components/schemas/Alumno"
       responses:
         "201":
-          description: Profesor creado exitosamente
+          description: Alumno creado exitosamente
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Profesor"
+                $ref: "#/components/schemas/Alumno"
         "400":
           description: Datos incompletos o inválidos
           content:
@@ -136,23 +136,24 @@ paths:
                     type: string
                     example: "Internal server error"
 
-  /profesor/{id_profesor}:
+  /alumnos/{numero_cuenta}:
     delete:
-      summary: Eliminar un profesor por ID
+      summary: Eliminar un alumno por número de cuenta
+      description: Elimina el registro de un alumno del sistema usando su número de cuenta
       tags:
-        - Profesores
+        - Alumnos
       parameters:
-        - name: id_profesor
+        - name: numero_cuenta
           in: path
           required: true
           schema:
             type: integer
-          example: 1
+          example: 423456789
       responses:
         "204":
-          description: Profesor eliminado exitosamente
+          description: Alumno eliminado exitosamente
         "404":
-          description: Profesor no encontrado
+          description: Alumno no encontrado
           content:
             application/json:
               schema:
@@ -160,7 +161,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Profesor not found"
+                    example: "Alumno not found"
         "500":
           description: Error interno del servidor
           content:
@@ -173,25 +174,26 @@ paths:
                     example: "Internal server error"
 
     put:
-      summary: Actualizar un profesor por ID
+      summary: Actualizar un alumno por número de cuenta
+      description: Actualiza los datos de un alumno existente usando su número de cuenta
       tags:
-        - Profesores
+        - Alumnos
       parameters:
-        - name: id_profesor
+        - name: numero_cuenta
           in: path
           required: true
           schema:
             type: integer
-          example: 1
+          example: 423456789
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Profesor"
+              $ref: "#/components/schemas/Alumno"
       responses:
         "200":
-          description: Profesor actualizado exitosamente
+          description: Alumno actualizado exitosamente
           content:
             application/json:
               schema:
@@ -201,7 +203,7 @@ paths:
                     type: string
                     example: "Updated successfully"
         "404":
-          description: Profesor no encontrado
+          description: Alumno no encontrado
           content:
             application/json:
               schema:
