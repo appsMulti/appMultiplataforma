@@ -1,0 +1,224 @@
+components:
+  schemas:
+    Alumno:
+      type: object
+      required:
+        - numero_cuenta
+        - nombre
+        - apellido_paterno
+        - apellido_materno
+        - curp
+        - telefono
+        - sexo
+        - correo_electronico
+        - fecha_nacimiento
+        - id_entidad
+      properties:
+        numero_cuenta:
+          type: integer
+          description: Número de cuenta del alumno (clave primaria, proporcionado por el usuario)
+          example: 423456789
+        nombre:
+          type: string
+          description: Nombre(s) del alumno
+          example: "Juan Carlos"
+        apellido_paterno:
+          type: string
+          description: Apellido paterno del alumno
+          example: "García"
+        apellido_materno:
+          type: string
+          description: Apellido materno del alumno
+          example: "López"
+        curp:
+          type: string
+          minLength: 18
+          maxLength: 18
+          description: CURP del alumno (18 caracteres, único)
+          example: "GALJ010101HDFXXX00"
+        telefono:
+          type: string
+          minLength: 10
+          maxLength: 10
+          description: Teléfono del alumno (10 dígitos)
+          example: "5551234567"
+        sexo:
+          type: string
+          enum: [M, F]
+          description: Sexo del alumno (M = Masculino, F = Femenino)
+          example: "M"
+        correo_electronico:
+          type: string
+          format: email
+          description: Correo electrónico del alumno (único)
+          example: "juan.garcia@correo.com"
+        fecha_nacimiento:
+          type: string
+          format: date
+          description: Fecha de nacimiento del alumno (YYYY-MM-DD)
+          example: "2001-03-15"
+        foto_perfil:
+          type: string
+          format: binary
+          nullable: true
+          description: Foto de perfil del alumno en formato binario (opcional)
+        id_entidad:
+          type: integer
+          description: ID de la entidad federativa a la que pertenece el alumno
+          example: 9
+
+paths:
+  /alumnos:
+    get:
+      summary: Obtener todos los alumnos
+      description: Retorna la lista completa de alumnos registrados en el sistema
+      tags:
+        - Alumnos
+      responses:
+        "200":
+          description: Lista de alumnos obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Alumno"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+    post:
+      summary: Crear un nuevo alumno
+      description: Registra un nuevo alumno en el sistema. Todos los campos son obligatorios excepto foto_perfil.
+      tags:
+        - Alumnos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Alumno"
+      responses:
+        "201":
+          description: Alumno creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alumno"
+        "400":
+          description: Datos incompletos o inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Bad request"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+  /alumnos/{numero_cuenta}:
+    delete:
+      summary: Eliminar un alumno por número de cuenta
+      description: Elimina el registro de un alumno del sistema usando su número de cuenta
+      tags:
+        - Alumnos
+      parameters:
+        - name: numero_cuenta
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 423456789
+      responses:
+        "204":
+          description: Alumno eliminado exitosamente
+        "404":
+          description: Alumno no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Alumno not found"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+    put:
+      summary: Actualizar un alumno por número de cuenta
+      description: Actualiza los datos de un alumno existente usando su número de cuenta
+      tags:
+        - Alumnos
+      parameters:
+        - name: numero_cuenta
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 423456789
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Alumno"
+      responses:
+        "200":
+          description: Alumno actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Updated successfully"
+        "404":
+          description: Alumno no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not found"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"

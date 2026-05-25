@@ -1,0 +1,176 @@
+components:
+  schemas:
+    Plantel:
+      type: object
+      required:
+        - nombre_plantel
+      properties:
+        clave_plantel:
+          type: integer
+          readOnly: true
+          description: Clave del plantel (generada automáticamente)
+          example: 1
+        nombre_plantel:
+          type: string
+          maxLength: 50
+          description: Nombre del plantel (único)
+          example: "Plantel Sur"
+
+paths:
+  /plantel:
+    get:
+      summary: Obtener todos los planteles
+      description: Retorna la lista completa de planteles registrados en el sistema
+      tags:
+        - Planteles
+      responses:
+        "200":
+          description: Lista de planteles obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Plantel"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+    post:
+      summary: Crear un nuevo plantel
+      description: Registra un nuevo plantel en el sistema
+      tags:
+        - Planteles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Plantel"
+      responses:
+        "201":
+          description: Plantel creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plantel:
+                    $ref: "#/components/schemas/Plantel"
+        "400":
+          description: Datos incompletos o inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Bad request, nombre or abreviatura not found"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+  /plantel/{clave_plantel}:
+    delete:
+      summary: Eliminar un plantel por clave
+      description: Elimina el registro de un plantel del sistema usando su clave
+      tags:
+        - Planteles
+      parameters:
+        - name: clave_plantel
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        "204":
+          description: Plantel eliminado exitosamente
+        "404":
+          description: Plantel no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Plantel not found"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+    put:
+      summary: Actualizar un plantel por clave
+      description: Actualiza los datos de un plantel existente usando su clave
+      tags:
+        - Planteles
+      parameters:
+        - name: clave_plantel
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Plantel"
+      responses:
+        "200":
+          description: Plantel actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Updated successfully"
+        "404":
+          description: Plantel no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not found"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
