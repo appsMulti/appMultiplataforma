@@ -1,25 +1,40 @@
-const swaggerJsdoc = require('swagger-jsdoc');
+const yaml = require('js-yaml');
+const fs = require('fs');
+const path = require('path');
 
-const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Proyecto de gestión de escuelas/facultades',
-            version: '1.0.0',
-            description: 'Aplicación web  para gestión de alumnos, profesores, entidades, asignaturas y planteles',
-            contact: {
-                name: 'Equipo zip'
-            }
-        },
-        servers: [
-            {
-                url: 'http://localhost:3000',
-                description: 'Servidor local'
-            }
-        ]
+const swaggerDocument = {
+    openapi: '3.0.0',
+    info: {
+        title: 'Proyecto de gestión de escuelas/facultades',
+        version: '1.0.0',
+        description: 'Aplicación web para gestión de alumnos, profesores, entidades, asignaturas y planteles',
+        contact: {
+            name: 'Equipo zip'
+        }
     },
-    apis: ['./swagger/*.yml']  
+    servers: [
+        {
+            url: 'http://localhost:3000',
+            description: 'Servidor local'
+        }
+    ],
+    paths: {},
+    components: { schemas: {} }
 };
 
-const specs = swaggerJsdoc(options);
-module.exports = specs;
+const ymlFiles = ['alumno', 'profesor', 'entidad_federativa', 'asignatura', 'plantel'];
+
+ymlFiles.forEach(file => {
+    const filePath = path.join(__dirname, `${file}.yml`);
+    const doc = yaml.load(fs.readFileSync(filePath, 'utf8'));
+
+    if (doc.paths) {
+        Object.assign(swaggerDocument.paths, doc.paths);
+    }
+
+    if (doc.components && doc.components.schemas) {
+        Object.assign(swaggerDocument.components.schemas, doc.components.schemas);
+    }
+});
+
+module.exports = swaggerDocument;
