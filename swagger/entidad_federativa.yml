@@ -1,0 +1,182 @@
+components:
+  schemas:
+    Entidad:
+      type: object
+      required:
+        - nombre_entidad
+        - abreviatura
+      properties:
+        id_entidad:
+          type: integer
+          readOnly: true
+          description: ID de la entidad federativa (generado automáticamente)
+          example: 9
+        nombre_entidad:
+          type: string
+          maxLength: 50
+          description: Nombre de la entidad federativa (único)
+          example: "Ciudad de México"
+        abreviatura:
+          type: string
+          maxLength: 5
+          description: Abreviatura de la entidad federativa (única)
+          example: "CDMX"
+
+paths:
+  /entidad:
+    get:
+      summary: Obtener todas las entidades federativas
+      description: Retorna la lista completa de entidades federativas registradas en el sistema
+      tags:
+        - Entidades Federativas
+      responses:
+        "200":
+          description: Lista de entidades federativas obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Entidad"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+    post:
+      summary: Crear una nueva entidad federativa
+      description: Registra una nueva entidad federativa en el sistema
+      tags:
+        - Entidades Federativas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Entidad"
+      responses:
+        "201":
+          description: Entidad federativa creada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entidad:
+                    $ref: "#/components/schemas/Entidad"
+        "400":
+          description: Datos incompletos o inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Bad request, nombre or abreviatura not found"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+  /entidad/{id_entidad}:
+    delete:
+      summary: Eliminar una entidad federativa por ID
+      description: Elimina el registro de una entidad federativa del sistema usando su ID
+      tags:
+        - Entidades Federativas
+      parameters:
+        - name: id_entidad
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 9
+      responses:
+        "204":
+          description: Entidad federativa eliminada exitosamente
+        "404":
+          description: Entidad federativa no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Entidad not found"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+    put:
+      summary: Actualizar una entidad federativa por ID
+      description: Actualiza los datos de una entidad federativa existente usando su ID
+      tags:
+        - Entidades Federativas
+      parameters:
+        - name: id_entidad
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 9
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Entidad"
+      responses:
+        "200":
+          description: Entidad federativa actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Updated successfully"
+        "404":
+          description: Entidad federativa no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not found"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
