@@ -158,16 +158,63 @@ $('#mainTable').on('click', '.btn-view', async function () {
     `);
   });
 
+  //al hacer clic obtiene los cambios guardados del modal y decide cual tipo de tabla usar
+  $('#viewModal .modal-footer .btn-primary').off('click').on('click', async function () {
+    const actualizarData = {};
+    
+    $('#modalBody input, #modalBody select').each(function () {
+      const key = $(this).data('key');
+      if (key) {
+        actualizarData[key] = $(this).val();
+      }
+    });
+
+    let url = '';
+    switch (currentType) {
+      case 'Alumnos':
+        url = `/alumnos/${data.numero_cuenta}`;
+        break;
+      case 'Asignaturas':
+        url = `/asignatura/${data.clave_asignatura}`;
+        break;
+      case 'Entidades':
+        url = `/entidad/${data.id_entidad}`;
+        break;
+      case 'Planteles':
+        url = `/plantel/${data.clave_plantel}`;
+        break;
+      case 'Profesores':
+        url = `/profesor/${data.id_profesor}`;
+        break;
+      default:
+        alert('Unknown type: ' + currentType);
+        return;
+    }
+
+    try {
+      const res = await fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(actualizarData)
+      });
+
+      if (res.ok) {
+        const modalElement = document.getElementById('viewModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+        modalInstance.hide();
+        getTable().ajax.reload();
+      } else {
+        const err = await res.json();
+        alert('Error al actualizar: ' + err.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error en la petición de actualización');
+    }
+  });
+
   new bootstrap.Modal(document.getElementById('viewModal')).show();
 });
-
-//TO-DO: funcion de actualización, sobre escribe en la base de datos con el registro que obtiene
-//boton para actualizar la informacion sobre un registro
-$('#mainTable').on('click', '.btnUpdate', function(){
-  const data = getTable().row($(this).parents('tr')).data();
-  const labels = labelsMap[currentType] || {};
-  console.log('Data to update:', data);
-})
 
 //boton para eliminar cualquier registro
 $('#mainTable').on('click', '.btn-delete', function () {

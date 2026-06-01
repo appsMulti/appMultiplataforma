@@ -51,6 +51,27 @@ app.post('/alumnos', async (req, res) => {
   }
 });
 
+//put para alumno
+app.put('/alumnos/:numero_cuenta', async (req, res) => {
+  try {
+    const { numero_cuenta } = req.params;
+    const { nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento, id_entidad } = req.body;
+
+    const updated = await Alumno.update(
+      { nombre, apellido_paterno, apellido_materno, curp, telefono, sexo, correo_electronico, fecha_nacimiento, id_entidad },
+      { where: { numero_cuenta } }
+    );
+
+    if (updated[0] > 0) {
+      return res.status(200).json({ message: 'Updated successfully' });
+    }
+    return res.status(404).json({ message: 'Not found' });
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 //Eliminar alumno
 app.delete('/alumnos/:numero_cuenta', async (req, res) => {
   try {
@@ -116,6 +137,27 @@ app.post('/entidad', async (req, res) => {
   }
 });  
 
+//put para entidad
+app.put('/entidad/:id_entidad', async (req, res) => {
+  try {
+    const { id_entidad } = req.params;
+    const { nombre_entidad, abreviatura } = req.body;
+
+    const updated = await Entidad.update(
+      { nombre_entidad, abreviatura },
+      { where: { id_entidad } }
+    );
+
+    if (updated[0] > 0) {
+      return res.status(200).json({ message: 'Updated successfully' });
+    }
+    return res.status(404).json({ message: 'Not found' });
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 //Eliminar entidad
 app.delete('/entidad/:id_entidad', async (req, res) => {
   try {
@@ -137,7 +179,7 @@ app.delete('/entidad/:id_entidad', async (req, res) => {
 
 
 /*
-  * Funciones para entidad
+  * Funciones para profesor
  */
 //obtener todos los profesores
 app.get('/profesor', async (req, res) => {
@@ -161,6 +203,27 @@ app.post('/profesor', async (req, res) => {
 
     const save = await Profesor.create({ nombre, apellido_paterno, apellido_materno, curp, rfc, telefono, sexo, correo_electronico, fecha_nacimiento, sueldo });
     return res.status(201).json(save);
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+//put para profesor
+app.put('/profesor/:id_profesor', async (req, res) => {
+  try {
+    const { id_profesor } = req.params;
+    const { nombre, apellido_paterno, apellido_materno, curp, rfc, telefono, sexo, correo_electronico, fecha_nacimiento, sueldo } = req.body;
+
+    const updated = await Profesor.update(
+      { nombre, apellido_paterno, apellido_materno, curp, rfc, telefono, sexo, correo_electronico, fecha_nacimiento, sueldo },
+      { where: { id_profesor } }
+    );
+
+    if (updated[0] > 0) {
+      return res.status(200).json({ message: 'Updated successfully' });
+    }
+    return res.status(404).json({ message: 'Not found' });
   } catch (error) {
     console.log('Error', error);
     return res.status(500).json({ message: 'Internal server error' });
@@ -220,6 +283,27 @@ app.post('/asignatura', async (req, res) => {
   }
 });
 
+//put para asignatura
+app.put('/asignatura/:clave_asignatura', async (req, res) => {
+  try {
+    const { clave_asignatura } = req.params;
+    const { nombre } = req.body;
+
+    const updated = await Asignatura.update(
+      { nombre },
+      { where: { clave_asignatura } }
+    );
+
+    if (updated[0] > 0) {
+      return res.status(200).json({ message: 'Updated successfully' });
+    }
+    return res.status(404).json({ message: 'Not found' });
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 //Eliminar asignatura
 app.delete('/asignatura/:clave_asignatura', async (req, res) => {
   try {
@@ -240,7 +324,7 @@ app.delete('/asignatura/:clave_asignatura', async (req, res) => {
 });
 
 /*
-  * Funciones para entidad
+  * Funciones para plantel
  */
 //obtener todos los planteles
 app.get('/plantel', async (req, res) => {
@@ -270,6 +354,27 @@ app.post('/plantel', async (req, res) => {
     });
     
     return res.status(201).json({ plantel: save });
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+//put para plantel
+app.put('/plantel/:clave_plantel', async (req, res) => {
+  try {
+    const { clave_plantel } = req.params;
+    const { nombre_plantel } = req.body;
+
+    const updated = await Plantel.update(
+      { nombre_plantel },
+      { where: { clave_plantel } }
+    );
+
+    if (updated[0] > 0) {
+      return res.status(200).json({ message: 'Updated successfully' });
+    }
+    return res.status(404).json({ message: 'Not found' });
   } catch (error) {
     console.log('Error', error);
     return res.status(500).json({ message: 'Internal server error' });
@@ -308,4 +413,4 @@ sequelize.authenticate()
   })
   .catch((error) => {
     console.error('Connection fail', error);
-  }); 
+  });
